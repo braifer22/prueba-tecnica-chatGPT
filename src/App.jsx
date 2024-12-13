@@ -51,7 +51,7 @@ function App() {
                     onChange={handleSelectChange}
                     className="p-2 border-y border-black"
                 >
-                    <option value="">No filtrar por ciudad:</option>
+                    <option value="">No filtrar por ciudad</option>
                     {data.map((user) => {
                         return (
                             <option key={user.city} value={user.city}>
