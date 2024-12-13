@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react';
 import './App.css';
 import { useFetch } from './hooks/useFetch';
+import { Loading } from './components/Loading';
 
 function App() {
     const { data, isLoading } = useFetch();
+
     const [inputValue, setInputValue] = useState('');
-    const [filteredData, setFilteredData] = useState(data);
     const [selectValue, setSelectValue] = useState('');
+
+    const [filteredData, setFilteredData] = useState(data);
 
     function handleSelectChange(event) {
         setSelectValue(event.target.value);
@@ -36,57 +39,40 @@ function App() {
 
     return (
         <>
-            <h2 className="text-4xl font-bold">Prueba Técnica</h2>
-
-            <form className="flex gap-2 items-center justify-center my-12 *:border-none *:h-10">
-                <input
-                    type="text"
-                    className="p-2"
-                    placeholder="Buscar por nombre:"
-                    value={inputValue}
-                    onChange={handleInputChange}
-                />
-                <select
-                    value={selectValue}
-                    onChange={handleSelectChange}
-                    className="p-2 border-y border-black"
-                >
-                    <option value="">No filtrar por ciudad</option>
-                    {data.map((user) => {
-                        return (
-                            <option key={user.city} value={user.city}>
-                                {user.city}
-                            </option>
-                        );
-                    })}
-                </select>
-            </form>
+            <header>
+                <h2 className="text-4xl font-bold pt-8">Prueba Técnica</h2>
+                <form className="flex flex-col md:flex-row gap-2 items-center justify-center py-12 *:border-none *:h-10">
+                    <input
+                        type="text"
+                        className="p-2"
+                        placeholder="Buscar por nombre:"
+                        value={inputValue}
+                        onChange={handleInputChange}
+                    />
+                    <select
+                        value={selectValue}
+                        onChange={handleSelectChange}
+                        className="p-2 border-y border-black"
+                    >
+                        <option value="">No filtrar por ciudad</option>
+                        {data.map((user) => {
+                            return (
+                                <option key={user.city} value={user.city}>
+                                    {user.city}
+                                </option>
+                            );
+                        })}
+                    </select>
+                </form>
+            </header>
 
             {isLoading ? (
                 <div className="flex justify-center">
-                    <svg
-                        className="animate-spin -ml-1 mr-3 size-8 text-white"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                    >
-                        <circle
-                            className="opacity-25"
-                            cx="12"
-                            cy="12"
-                            r="10"
-                            stroke="currentColor"
-                            strokeWidth="4"
-                        ></circle>
-                        <path
-                            className="opacity-75"
-                            fill="currentColor"
-                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                        ></path>
-                    </svg>
+                    <Loading />
                 </div>
             ) : (
                 <section className="flex justify-center">
-                    <table className="bg-neutral-800 table-fixed w-full max-w-screen-lg border-separate border-spacing-2 border border-neutral-500 text-left *:*:*:p-2 *:*:*:border *:*:*:border-neutral-600">
+                    <table className="h-fit bg-neutral-800 m-2 table-fixed w-full max-w-screen-lg border-separate border-spacing-2 border border-neutral-500 text-left *:*:*:p-2 *:*:*:border *:*:*:border-neutral-600 *:*:*:overflow-auto">
                         <thead className="bg-neutral-700">
                             <tr className=" text-center !font-light">
                                 <th>Name</th>
